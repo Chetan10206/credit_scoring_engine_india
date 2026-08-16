@@ -1,0 +1,24 @@
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+python cli.py --demo
+uvicorn api.app:app --reload --port 8000
+python cli.py --json my_applicant.json
+
+-------------------------------------------------
+
+deactivate
+rmdir /s /q venv
+python -m venv venv
+venv\Scripts\activate
+
+where python
+
+pip install -r requirements.txt
+uvicorn api.app:app --reload --port 8000
+
+
+python cli.py --demo
+
+
+python cli.py --json my_applicant.json

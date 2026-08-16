@@ -1,0 +1,187 @@
+{
+  "model_name": "logistic_regression",
+  "needs_scaling": true,
+  "feature_columns": [
+    "age",
+    "annual_income",
+    "employment_length_years",
+    "credit_history_length_years",
+    "num_credit_lines",
+    "existing_emi_monthly",
+    "debt_to_income",
+    "credit_utilization",
+    "num_late_payments_12m",
+    "num_derogatory_marks",
+    "previous_defaults",
+    "num_dependents",
+    "loan_amount",
+    "loan_to_income",
+    "late_payment_rate",
+    "emi_to_monthly_income",
+    "city_tier_Metro",
+    "city_tier_Tier-2",
+    "city_tier_Tier-3",
+    "employment_type_Business Owner",
+    "employment_type_Salaried",
+    "employment_type_Self-Employed",
+    "loan_purpose_business_loan",
+    "loan_purpose_consumer_durable",
+    "loan_purpose_credit_card",
+    "loan_purpose_education_loan",
+    "loan_purpose_gold_loan",
+    "loan_purpose_home_loan",
+    "loan_purpose_personal_loan",
+    "loan_purpose_vehicle_loan",
+    "residence_type_Family-Owned",
+    "residence_type_Owned",
+    "residence_type_Rented"
+  ],
+  "metrics": {
+    "logistic_regression": {
+      "roc_auc": 0.7724725516029863,
+      "accuracy": 0.8056666666666666
+    },
+    "random_forest": {
+      "roc_auc": 0.7589422172030869,
+      "accuracy": 0.7916666666666666
+    },
+    "gradient_boosting": {
+      "roc_auc": 0.7666999184390488,
+      "accuracy": 0.798
+    }
+  },
+  "feature_importance": [
+    {
+      "feature": "annual_income",
+      "importance": 0.6254388983707554
+    },
+    {
+      "feature": "previous_defaults",
+      "importance": 0.4549214357928401
+    },
+    {
+      "feature": "num_late_payments_12m",
+      "importance": 0.3701249674725902
+    },
+    {
+      "feature": "loan_to_income",
+      "importance": 0.34082972593309413
+    },
+    {
+      "feature": "credit_utilization",
+      "importance": 0.3366000952442296
+    },
+    {
+      "feature": "num_derogatory_marks",
+      "importance": 0.22722412927593016
+    },
+    {
+      "feature": "credit_history_length_years",
+      "importance": 0.21824585328234097
+    },
+    {
+      "feature": "debt_to_income",
+      "importance": 0.14893823048023844
+    },
+    {
+      "feature": "emi_to_monthly_income",
+      "importance": 0.14809960214688686
+    },
+    {
+      "feature": "late_payment_rate",
+      "importance": 0.09958944622397173
+    },
+    {
+      "feature": "employment_length_years",
+      "importance": 0.09584182760769203
+    },
+    {
+      "feature": "num_dependents",
+      "importance": 0.0889536276684113
+    },
+    {
+      "feature": "loan_purpose_business_loan",
+      "importance": 0.06836103877155647
+    },
+    {
+      "feature": "loan_purpose_gold_loan",
+      "importance": 0.06286789952142686
+    },
+    {
+      "feature": "residence_type_Family-Owned",
+      "importance": 0.05763758397244282
+    },
+    {
+      "feature": "residence_type_Rented",
+      "importance": 0.05434356611468983
+    },
+    {
+      "feature": "employment_type_Salaried",
+      "importance": 0.0512753537645633
+    },
+    {
+      "feature": "city_tier_Metro",
+      "importance": 0.049262861110007765
+    },
+    {
+      "feature": "num_credit_lines",
+      "importance": 0.04615539349144037
+    },
+    {
+      "feature": "loan_purpose_consumer_durable",
+      "importance": 0.04533466939873582
+    },
+    {
+      "feature": "loan_purpose_home_loan",
+      "importance": 0.0444266562579816
+    },
+    {
+      "feature": "employment_type_Self-Employed",
+      "importance": 0.03862995132301229
+    },
+    {
+      "feature": "age",
+      "importance": 0.032073294451865665
+    },
+    {
+      "feature": "city_tier_Tier-3",
+      "importance": 0.026163383917531462
+    },
+    {
+      "feature": "city_tier_Tier-2",
+      "importance": 0.02486388002829846
+    },
+    {
+      "feature": "employment_type_Business Owner",
+      "importance": 0.024195516675420057
+    },
+    {
+      "feature": "loan_purpose_credit_card",
+      "importance": 0.020881119954651223
+    },
+    {
+      "feature": "loan_purpose_education_loan",
+      "importance": 0.016044789706228642
+    },
+    {
+      "feature": "existing_emi_monthly",
+      "importance": 0.011048586894295892
+    },
+    {
+      "feature": "loan_purpose_personal_loan",
+      "importance": 0.006100600858339634
+    },
+    {
+      "feature": "residence_type_Owned",
+      "importance": 0.003481134453928972
+    },
+    {
+      "feature": "loan_purpose_vehicle_loan",
+      "importance": 0.0030296756298835957
+    },
+    {
+      "feature": "loan_amount",
+      "importance": 0.0007573906971377689
+    }
+  ]
+}

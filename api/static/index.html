@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Credit Scoring Engine — India</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #EEF2F4;
+    --card: #FBFCFA;
+    --ink: #142138;
+    --ink-soft: #4A5568;
+    --rule: #D7DCE0;
+    --gold: #A97C2F;
+    --gold-deep: #7E5A1E;
+    --good: #1F6F50;
+    --fair: #A97C2F;
+    --risk: #8C3A2B;
+    --radius: 4px;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    background-image:
+      linear-gradient(var(--rule) 1px, transparent 1px);
+    background-size: 100% 32px;
+    color: var(--ink);
+    font-family: "IBM Plex Sans", sans-serif;
+    padding: 48px 20px 80px;
+  }
+
+  .wrap { max-width: 760px; margin: 0 auto; }
+
+  header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 14px;
+    margin-bottom: 6px;
+  }
+
+  .brand-mark {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .seal {
+    width: 44px; height: 44px;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: "Fraunces", serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--gold-deep);
+    flex-shrink: 0;
+  }
+
+  h1 {
+    font-family: "Fraunces", serif;
+    font-weight: 600;
+    font-size: 1.7rem;
+    letter-spacing: -0.01em;
+    margin: 0;
+    line-height: 1.1;
+  }
+
+  h1 span { display: block; font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold-deep); font-family: "IBM Plex Sans"; font-weight: 600; margin-top: 3px; }
+
+  .range-tag {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.72rem;
+    color: var(--ink-soft);
+    border: 1px solid var(--rule);
+    padding: 4px 9px;
+    border-radius: var(--radius);
+    background: var(--card);
+    white-space: nowrap;
+  }
+
+  .lede {
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+    margin: 14px 0 30px;
+  }
+
+  .ledger-card {
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: 28px 28px 24px;
+  }
+
+  .ledger-title {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0 0 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  form { display: grid; grid-template-columns: 1fr 1fr; gap: 3px 24px; }
+
+  .field { display: flex; flex-direction: column; padding: 10px 0; border-bottom: 1px dashed var(--rule); }
+
+  .field label {
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+  }
+
+  .field input, .field select {
+    border: none;
+    background: transparent;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.95rem;
+    color: var(--ink);
+    padding: 2px 0;
+    outline: none;
+  }
+
+  .field select { font-family: "IBM Plex Sans", sans-serif; cursor: pointer; }
+
+  .field:focus-within { border-bottom-color: var(--gold); border-bottom-style: solid; }
+
+  .actions { grid-column: 1 / -1; display: flex; justify-content: flex-end; margin-top: 22px; }
+
+  button {
+    font-family: "IBM Plex Sans", sans-serif;
+    font-weight: 600;
+    font-size: 0.88rem;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 12px 26px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+  button:hover { background: var(--gold-deep); }
+  button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+  #result { margin-top: 28px; display: none; }
+
+  .stamp-row {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-left: 5px solid var(--fair);
+    border-radius: var(--radius);
+    padding: 22px 26px;
+    animation: settle 0.35s ease;
+  }
+  .stamp-row.good { border-left-color: var(--good); }
+  .stamp-row.risk { border-left-color: var(--risk); }
+
+  @keyframes settle {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .stamp {
+    font-family: "Fraunces", serif;
+    font-weight: 600;
+    font-size: 2.6rem;
+    line-height: 1;
+    color: var(--ink);
+    flex-shrink: 0;
+    min-width: 108px;
+  }
+
+  .stamp-meta { flex: 1; }
+  .grade-line { font-weight: 600; font-size: 0.98rem; }
+  .pd-line { font-family: "IBM Plex Mono", monospace; font-size: 0.8rem; color: var(--ink-soft); margin-top: 3px; }
+  .rec-line { margin-top: 10px; font-size: 0.86rem; color: var(--ink); }
+
+  .ledger-table { width: 100%; border-collapse: collapse; margin-top: 22px; font-size: 0.85rem; }
+  .ledger-table caption {
+    text-align: left; font-family: "IBM Plex Mono", monospace; font-size: 0.7rem;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft);
+    padding-bottom: 10px;
+  }
+  .ledger-table td { padding: 9px 4px; border-bottom: 1px dashed var(--rule); }
+  .ledger-table td:first-child { font-family: "IBM Plex Mono", monospace; color: var(--gold-deep); width: 28px; }
+  .ledger-table td:nth-child(2) { color: var(--ink); }
+  .ledger-table td:last-child { text-align: right; font-size: 0.78rem; color: var(--ink-soft); }
+
+  footer { text-align: center; margin-top: 40px; font-size: 0.72rem; color: var(--ink-soft); }
+
+  @media (max-width: 620px) {
+    form { grid-template-columns: 1fr; }
+    .stamp-row { flex-direction: column; align-items: flex-start; gap: 10px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="brand-mark">
+      <div class="seal">₹</div>
+      <h1>Credit Scoring Engine<span>India Edition</span></h1>
+    </div>
+    <div class="range-tag">SCORE 300–900</div>
+  </header>
+  <p class="lede">Enter the applicant's particulars below for an instant CIBIL-style assessment.</p>
+
+  <div class="ledger-card">
+    <p class="ledger-title">Applicant Particulars</p>
+    <form id="form">
+      <div class="field"><label>Age</label><input type="number" name="age" value="32" required></div>
+      <div class="field"><label>Annual income (₹)</label><input type="number" name="annual_income" value="900000" required></div>
+
+      <div class="field"><label>City tier</label>
+        <select name="city_tier"><option selected>Metro</option><option>Tier-2</option><option>Tier-3</option></select>
+      </div>
+      <div class="field"><label>Employment type</label>
+        <select name="employment_type"><option selected>Salaried</option><option>Self-Employed</option><option>Business Owner</option></select>
+      </div>
+
+      <div class="field"><label>Employment length (yrs)</label><input type="number" name="employment_length_years" value="6" required></div>
+      <div class="field"><label>Credit history length (yrs)</label><input type="number" name="credit_history_length_years" value="8" required></div>
+
+      <div class="field"><label>Number of credit lines</label><input type="number" name="num_credit_lines" value="4" required></div>
+      <div class="field"><label>Existing EMI / month (₹)</label><input type="number" name="existing_emi_monthly" value="12000" required></div>
+
+      <div class="field"><label>Debt-to-income (0–1)</label><input type="number" step="0.01" name="debt_to_income" value="0.18" required></div>
+      <div class="field"><label>Credit card utilization (0–1)</label><input type="number" step="0.01" name="credit_utilization" value="0.30" required></div>
+
+      <div class="field"><label>Late payments (12m)</label><input type="number" name="num_late_payments_12m" value="0" required></div>
+      <div class="field"><label>Derogatory marks</label><input type="number" name="num_derogatory_marks" value="0" required></div>
+
+      <div class="field"><label>Previous defaults</label>
+        <select name="previous_defaults"><option value="0" selected>No</option><option value="1">Yes</option></select>
+      </div>
+      <div class="field"><label>Number of dependents</label><input type="number" name="num_dependents" value="1" required></div>
+
+      <div class="field"><label>Loan amount (₹)</label><input type="number" name="loan_amount" value="500000" required></div>
+      <div class="field"><label>Loan purpose</label>
+        <select name="loan_purpose">
+          <option>home_loan</option><option selected>personal_loan</option><option>vehicle_loan</option>
+          <option>education_loan</option><option>gold_loan</option><option>business_loan</option>
+          <option>credit_card</option><option>consumer_durable</option>
+        </select>
+      </div>
+
+      <div class="field"><label>Residence type</label>
+        <select name="residence_type"><option selected>Owned</option><option>Rented</option><option>Family-Owned</option></select>
+      </div>
+
+      <div class="actions"><button type="submit">Compute Score</button></div>
+    </form>
+  </div>
+
+  <div id="result"></div>
+
+  <footer>Synthetic model output for demonstration purposes — not a real bureau score.</footer>
+</div>
+
+<script>
+const form = document.getElementById('form');
+const resultDiv = document.getElementById('result');
+
+function gradeClass(grade) {
+  if (grade === 'A' || grade === 'B') return 'good';
+  if (grade === 'E') return 'risk';
+  return '';
+}
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(form).entries());
+  ['age','employment_length_years','credit_history_length_years','num_credit_lines',
+   'num_late_payments_12m','num_derogatory_marks','num_dependents'].forEach(k => data[k] = parseInt(data[k]));
+  ['annual_income','existing_emi_monthly','debt_to_income','credit_utilization','loan_amount'].forEach(k => data[k] = parseFloat(data[k]));
+  data.previous_defaults = parseInt(data.previous_defaults);
+
+  resultDiv.style.display = 'block';
+  resultDiv.innerHTML = '<p class="lede">Computing…</p>';
+
+  try {
+    const res = await fetch('/score', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    if (!res.ok) throw new Error(await res.text());
+    const r = await res.json();
+
+    const rows = r.top_factors.map((f, i) =>
+      `<tr><td>${String(i + 1).padStart(2, '0')}</td><td>${f.feature.replace(/_/g, ' ')} — ${f.value}</td><td>${f.direction}</td></tr>`
+    ).join('');
+
+    resultDiv.innerHTML = `
+      <div class="stamp-row ${gradeClass(r.risk_grade)}">
+        <div class="stamp">${r.credit_score}</div>
+        <div class="stamp-meta">
+          <div class="grade-line">Grade ${r.risk_grade} — ${r.grade_label}</div>
+          <div class="pd-line">PROBABILITY OF DEFAULT · ${(r.probability_of_default*100).toFixed(1)}%</div>
+          <div class="rec-line">${r.recommendation}</div>
+        </div>
+      </div>
+      <table class="ledger-table">
+        <caption>Ranked contributing factors</caption>
+        ${rows}
+      </table>
+    `;
+  } catch (err) {
+    resultDiv.innerHTML = '<p class="lede">Could not compute a score: ' + err.message + '</p>';
+  }
+});
+</script>
+</body>
+</html>
